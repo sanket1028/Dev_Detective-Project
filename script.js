@@ -63,3 +63,54 @@ btnsubmit.addEventListener("click", function () {
     noresults.style.display = "none";
   });
   
+
+  // Functions
+
+//API CALL
+function getUserData(gitUrl) {
+    fetch(gitUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        updateProfile(data);
+      })
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+
+  function updateProfile(data) {
+    if (data.message !== "Not Found") {
+      noresults.style.display = "none";
+      function checkNull(param1, param2) {
+        if (param1 === "" || param1 === null) {
+          param2.style.opacity = 0.5;
+          param2.previousElementSibling.style.opacity = 0.5;
+          return false;
+        } else {
+          return true;
+        }
+      }
+      avatar.src = `${data.avatar_url}`;
+      userName.innerText = data.name === null ? data.login : data.name;
+      user.innerText = `@${data.login}`;
+      user.href = `${data.html_url}`;
+      datesegments = data.created_at.split("T").shift().split("-");
+      date.innerText = `Joined ${datesegments[2]} ${months[datesegments[1] - 1]} ${datesegments[0]}`;
+      bio.innerText = data.bio == null ? "This profile has no bio" : `${data.bio}`;
+      repos.innerText = `${data.public_repos}`;
+      followers.innerText = `${data.followers}`;
+      following.innerText = `${data.following}`;
+      user_location.innerText = checkNull(data.location, user_location) ? data.location : "Not Available";
+      page.innerText = checkNull(data.blog, page) ? data.blog : "Not Available";
+      page.href = checkNull(data.blog, page) ? data.blog : "#";
+      twitter.innerText = checkNull(data.twitter_username, twitter) ? data.twitter_username : "Not Available";
+      twitter.href = checkNull(data.twitter_username, twitter) ? `https://twitter.com/${data.twitter_username}` : "#";
+      company.innerText = checkNull(data.company, company) ? data.company : "Not Available";
+      searchbar.classList.toggle("active");
+      profilecontainer.classList.toggle("active");
+    } else {
+      noresults.style.display = "block";
+    }
+  }
