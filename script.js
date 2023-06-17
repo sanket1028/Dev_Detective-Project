@@ -24,3 +24,42 @@ const page = get("page");
 const twitter = get("twitter");
 const company = get("company");
 let darkMode = false;
+
+//Event Listner 
+
+// for search button
+btnsubmit.addEventListener("click", function () {
+    if (input.value !== "") {
+      getUserData(url + input.value);
+    }
+  });
+
+  // for mode button
+
+  btnmode.addEventListener("click", function () {
+    if (darkMode == false) {
+      darkModeProperties();
+    } else {
+      lightModeProperties();
+    }
+  });
+
+  // for input field when enter key is pressed
+  input.addEventListener(
+    "keydown",
+    function (e) {
+      if (e.key == "Enter") {
+        if (input.value !== "") {
+          getUserData(url + input.value);
+        }
+      }
+    },
+    false
+  );
+
+  // for input field whenever the input changes to hide no user found
+  
+  input.addEventListener("input", function () {
+    noresults.style.display = "none";
+  });
+  
