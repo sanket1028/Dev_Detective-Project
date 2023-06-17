@@ -150,3 +150,28 @@ function darkModeProperties() {
     localStorage.setItem("dark-mode", false);
     console.log("setting dark mode to false");
   }
+
+
+  function init() {
+    darkMode = false;
+  
+  
+   //const prefersDarkMode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  
+    const value = localStorage.getItem("dark-mode");
+  
+    if(value === null) {
+      localStorage.setItem("dark-mode", darkMode);
+      lightModeProperties();
+    }
+    else if(value == "true") {
+      darkModeProperties();
+    }
+    else if(value == "false") {
+      lightModeProperties();
+    }
+  
+    getUserData(url + "sanket1028");
+  }
+  
+  init();
